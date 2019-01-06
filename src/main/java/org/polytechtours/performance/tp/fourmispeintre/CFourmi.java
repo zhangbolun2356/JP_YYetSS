@@ -35,14 +35,14 @@ public class CFourmi {
   private long mNbDeplacements;
 
   /*************************************************************************************************
-  */
+   */
   public CFourmi(Color pCouleurDeposee, Color pCouleurSuivie, float pProbaTD, float pProbaG, float pProbaD,
-      float pProbaSuivre, CPainting pPainting, char pTypeDeplacement, float pInit_x, float pInit_y, int pInitDirection,
-      int pTaille, float pSeuilLuminance, PaintingAnts pApplis) {
+                 float pProbaSuivre, CPainting pPainting, char pTypeDeplacement, float pInit_x, float pInit_y, int pInitDirection,
+                 int pTaille, float pSeuilLuminance, PaintingAnts pApplis) {
 
     mCouleurDeposee = pCouleurDeposee;
     mLuminanceCouleurSuivie = 0.2426f * pCouleurDeposee.getRed() + 0.7152f * pCouleurDeposee.getGreen()
-        + 0.0722f * pCouleurDeposee.getBlue();
+            + 0.0722f * pCouleurDeposee.getBlue();
     mPainting = pPainting;
     mApplis = pApplis;
 
@@ -112,7 +112,8 @@ public class CFourmi {
     if (mApplis.mBaseImage != null) {
       lCouleur = new Color(mApplis.mBaseImage.getRGB(i, j));
     } else {
-      lCouleur = new Color(mPainting.getCouleur(i, j).getRGB());
+      //lCouleur = new Color(mPainting.getCouleur(i, j).getRGB());
+      lCouleur = new Color(mPainting.getCouleur(i, j));
     }
     if (testCouleur(lCouleur)) {
       dir[0] = 1;
@@ -123,7 +124,8 @@ public class CFourmi {
     if (mApplis.mBaseImage != null) {
       lCouleur = new Color(mApplis.mBaseImage.getRGB(i, j));
     } else {
-      lCouleur = new Color(mPainting.getCouleur(i, j).getRGB());
+      //lCouleur = new Color(mPainting.getCouleur(i, j).getRGB());
+      lCouleur = new Color(mPainting.getCouleur(i, j));
     }
     if (testCouleur(lCouleur)) {
       dir[1] = 1;
@@ -133,7 +135,8 @@ public class CFourmi {
     if (mApplis.mBaseImage != null) {
       lCouleur = new Color(mApplis.mBaseImage.getRGB(i, j));
     } else {
-      lCouleur = new Color(mPainting.getCouleur(i, j).getRGB());
+      //lCouleur = new Color(mPainting.getCouleur(i, j).getRGB());
+      lCouleur = new Color(mPainting.getCouleur(i, j));
     }
     if (testCouleur(lCouleur)) {
       dir[2] = 1;
@@ -178,27 +181,35 @@ public class CFourmi {
     x = modulo(x, mPainting.getLargeur());
     y = modulo(y, mPainting.getHauteur());
 
+    //Ajouter transfer
+    float R = mCouleurDeposee.getRed();
+    float G = mCouleurDeposee.getGreen();
+    float B = mCouleurDeposee.getBlue();
+
+    int CouleurDeposeeInt = ((int)R<<16) + ((int)G<<8) + (int)B;
+
     // coloration de la nouvelle position de la fourmi
-    mPainting.setCouleur(x, y, mCouleurDeposee, mTaille);
+    //mPainting.setCouleur(x, y, mCouleurDeposee, mTaille);
+    mPainting.setCouleur(x, y, CouleurDeposeeInt, mTaille);
 
     mApplis.IncrementFpsCounter();
   }
 
   /*************************************************************************************************
-  */
+   */
   public long getNbDeplacements() {
     return mNbDeplacements;
   }
   /****************************************************************************/
 
   /*************************************************************************************************
-  */
+   */
   public int getX() {
     return x;
   }
 
   /*************************************************************************************************
-  */
+   */
   public int getY() {
     return y;
   }
